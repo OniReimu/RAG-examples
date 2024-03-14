@@ -50,6 +50,12 @@ Then spin up the gradio application with given configuration, change question ex
 python gradio_app.py
 ``
 
+Alternatively, you can opt for connecting to an HTTP end-point via postman.
+
+``
+python http_app.py
+``
+
 
 ## Future Work
 
