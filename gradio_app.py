@@ -72,14 +72,10 @@ def predict(message, history):
         history_langchain_format.append(AIMessage(content=ai))
     
     language = model.predict(message)[0][0].split('__')[-1]
-    template = """I want you to act as a question answering bot which uses the context mentioned and answer in a concise manner and doesn't make stuff up.
-            If you don't know the answer, just say that you don't know, don't try to make up an answer.
-            You will answer question based on the context - {context}.
-            Any topics that are NOT related to the context, you will answer : "As an AI-assistant, I will only answer the domain-specific questions, please try again."
-            You will create content in""" + str(language) + """language.
-            Question: {question}
-            Answer:
-            """
+    with open('prompts.txt', 'r') as file:
+        template = file.read()
+    template = template.format(language=str(language), context='{context}', question='{question}')
+    
     QA_CHAIN_PROMPT = PromptTemplate.from_template(template)
     qa_chain = RetrievalQA.from_chain_type(
         llm=llm,
